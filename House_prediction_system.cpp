@@ -1,28 +1,34 @@
 #include <iostream>
 #include <random>
+#include <algorithm>
 
 using namespace std;
 
-class propogation{
-public:
-    
-};
+// class Matrix_Multiplier{
+//     Matrix_Multiplier(int x, int y){
 
-class dataloader {
+//     }
+// };
+
+class dataloader{
 public:
     int training_data;
     int epochs;
     long int* x;
     int* actual;
+    int min;
+    int max;
+    int* min_it = &min;
+    int* max_it = &max;
+    long int minimum;
+    long int maximum;
 
     dataloader(int training_data, int epochs) {
         this->training_data = training_data;
         this->epochs = epochs;
-    }
-
-    void generate_data() {
         x = new long int[training_data];
         actual = new int[training_data];
+
 
         random_device rd;
         mt19937 gen(rd());
@@ -42,20 +48,32 @@ public:
                 actual[i] = 0;
             }
         }
-    }
+        auto result = std::minmax_element(x, x + training_data);
+        minimum = *result.first;
+        maximum = *result.second;
 
+        // -- NORMALIZATION ---
+
+    }
     void print_data() {
 
         for (int i = 0; i < training_data; i++) {
             cout << "Training data - actual result " << endl;
             cout << x[i] << "--" << actual[i] << endl;
+            cout << minimum << maximum;
         }
     }
 };
 
+class forward_propogation : public dataloader{
+
+
+
+
+};
+
 int main() {
     dataloader d(10000, 100);
-    d.generate_data();
     d.print_data();
     return 0;
 }
